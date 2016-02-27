@@ -3,12 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <link rel="stylesheet" href="/css/myApp.css">
 </head>
 <body ng-app>
-  <h1>{{2 + 3}}</h1>
-  <div class=queue></div>
-  <div class=inProgress></div>
-  <div class=done></div>
+  <h1 class=topTitle>Fun with Kanbans!</h1>
+  <div class=addCard>
+    <input type="text" ng-model="title" placeholder="Title">
+    <br>
+    <input type="number" ng-model="priority" placeholder="Priority">
+    <br>
+    <input type="text" ng-model="createdBy" placeholder="Created By">
+    <br>
+    <input type="text" ng-model="assignedTo" placeholder="Assigned To">
+    <br>
+    <button ng-click>Create Card</button>
+  </div>
+  <div class=kanban>
+    <div class=queue>
+      <div id=card>queue test card
+        {{ title }}
+      </div>
+    </div>
+    <div class=inProgress>
+      <div id=card>inProgress test card</div>
+    </div>
+    <div class=done>
+      <div id=card>done test card</div>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
 </body>
