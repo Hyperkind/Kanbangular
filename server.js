@@ -21,7 +21,6 @@ app.get('/api', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-  console.log(req.body);
   card.create(req.body)
     .then(function(card) {
       res.redirect('/');
