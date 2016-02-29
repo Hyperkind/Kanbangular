@@ -1,0 +1,33 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Document
+    link(rel='stylesheet', href='./public/css/myApp.css')
+  body(ng-app='')
+    h1#topTitle Fun with Kanbans!
+    #addCard
+      form#addCard(action='/', method='POST')
+        input(type='text', name='title', placeholder='Title')
+        select(name='priority')
+          option(value='Low') Low
+          option(value='Meduim') Meduim
+          option(value='High') High
+          option(value='Blocker') Blocker
+        select(name='status')
+          option(value='Queue') Queue
+          option(value='In Progress') In Progress
+          option(value='Done') Done
+        input(type='text', name='createdBy', placeholder='Created By')
+        input(type='text', name='assignedTo', placeholder='Assigned To')
+        button(type='submit', ng-click="Kanban.addCard(title, priority, createdBy, assignedTo);title=''; priority=''; createdBy=''; assignedTo='';") Create Card
+    #kanban
+      #queue
+        .card queue test card {{title}}
+        .card(ng-repeat='card in cards')
+          p {{cards.title}}
+      #inProgress
+        .card inProgress test card
+      #done
+        .card done test card
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js')
