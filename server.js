@@ -6,16 +6,14 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var router = express.Router();
 var isAuthenticated = require('./middleware/isAuthenticated');
-
-var app = express();
-
 var CONFIG = require('./config');
 var db = require('./models');
 var cards = db.card;
 var users = db.user;
 
-app.use(express.static(path.join(__dirname, 'public')));
+var app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
 app.set('views', path.resolve(__dirname, 'views'));
@@ -57,10 +55,23 @@ passport.deserializeUser(function (user, done) {
   return done(null, user);
 });
 
+app.get('/', function(req, res) {
+  res.render('index');
+});
+
+// API to get all cards in database
 app.get('/api', function(req, res) {
   cards.findAll({})
     .then(function(cards) {
       res.json(cards);
+    });
+});
+
+// API to get all users in database
+app.get('/api/users', function(req, res) {
+  users.findAll({})
+    .then(function(users) {
+      res.json(users);
     });
 });
 
@@ -94,11 +105,3 @@ app.get('/logout', function(req, res) {
 var server = app.listen(3000, function() {
   console.log('Server listening on port', server.address().port);
 });
-
-// db.sequelize
-//   .sync()
-//   .then(function () {
-//     app.listen(CONFIG.PORT, function() {
-//       console.log('Server listening on port', CONFIG.PORT);
-//     });
-//   });

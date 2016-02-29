@@ -2,9 +2,9 @@ doctype html
 html(lang='en')
   head
     meta(charset='UTF-8')
-    title Document
-    link(rel='stylesheet', href='./public/css/myApp.css')
-  body(ng-app='')
+    title Fun with Kanbans
+    link(rel='stylesheet', href='/css/myApp.css')
+  body(ng-app='myApp' ng-controller='MyController')
     h1#topTitle Fun with Kanbans!
     #addCard
       form#addCard(action='/', method='POST')
@@ -18,8 +18,10 @@ html(lang='en')
           option(value='Queue') Queue
           option(value='In Progress') In Progress
           option(value='Done') Done
-        input(type='text', name='createdBy', placeholder='Created By')
-        input(type='text', name='assignedTo', placeholder='Assigned To')
+        select(name='createdBy')
+          option(ng-repeat='user in users' value='{{user.username}}') {{user.username}}
+        select(name='assignedTo')
+          option(ng-repeat='user in users' value='{{user.username}}') {{user.username}}
         button(type='submit', ng-click="Kanban.addCard(title, priority, createdBy, assignedTo);title=''; priority=''; createdBy=''; assignedTo='';") Create Card
     #kanban
       #queue
@@ -31,3 +33,7 @@ html(lang='en')
       #done
         .card done test card
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js')
+    script(type='text/javascript' src='/js/myapp.js')
+    script(type='text/javascript' src='/js/controllers.js')
+    script(type='text/javascript' src='/js/factories.js')
+
