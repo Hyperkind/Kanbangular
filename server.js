@@ -17,6 +17,7 @@ var users = db.user;
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(passport.initialize());
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -74,12 +75,6 @@ app.route('/login')
   .get(function(req, res) {
     res.render('login');
   })
-  // .post(
-  //   passport.authenticate('local', {
-  //     successRedirect: '/',
-  //     failureRedirect: '/login'
-  //   })
-  // );
   .post(
     passport.authenticate('local', { failureRedirect: '/login'}),
     function(req, res) {
