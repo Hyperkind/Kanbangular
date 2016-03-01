@@ -53,10 +53,6 @@ passport.deserializeUser(function (user, done) {
   return done(null, user);
 });
 
-// app.get('/', function(req, res) {
-//   res.render('index');
-// });
-
 // API to get all cards in database
 app.get('/api', function(req, res) {
   cards.findAll({})

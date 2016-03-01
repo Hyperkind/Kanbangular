@@ -19,7 +19,8 @@ myApp
       })
       .when('/404', {
         templateUrl: '/templates/404.html'
-      });
+      })
+      .otherwise('/404');
   })
   .run(function() {
 
