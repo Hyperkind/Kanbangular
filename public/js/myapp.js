@@ -1,10 +1,25 @@
-angular.module('myApp', []);
+angular.module('myApp', ['ngRoute']);
 
 var myApp = angular.module('myApp');
 
 myApp
-  .config(function() {
-
+  .config(function($routeProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: '/templates/welcome.html',
+        controller: 'MyController'
+      })
+      .when('/newCard', {
+        templateUrl: '/templates/newCard.html',
+        controller: 'MyController'
+      })
+      .when('/kanban', {
+        templateUrl: '/templates/kanban.html',
+        controller: 'MyController'
+      })
+      .when('/404', {
+        templateUrl: '/templates/404.html'
+      });
   })
   .run(function() {
 

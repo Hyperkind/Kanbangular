@@ -16,8 +16,6 @@ var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
-app.set('views', path.resolve(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 // links loin page to users database and checks for correct login
 passport.use(new localStrategy (
@@ -55,9 +53,9 @@ passport.deserializeUser(function (user, done) {
   return done(null, user);
 });
 
-app.get('/', function(req, res) {
-  res.render('index');
-});
+// app.get('/', function(req, res) {
+//   res.render('index');
+// });
 
 // API to get all cards in database
 app.get('/api', function(req, res) {
@@ -84,7 +82,7 @@ app.post('/', function(req, res) {
 
 app.route('/login')
   .get(function(req, res) {
-    res.render('login');
+    res.redirect('/login.html');
   })
   .post(
     passport.authenticate('local', { failureRedirect: '/login'}),
