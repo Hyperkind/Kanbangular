@@ -1,9 +1,7 @@
 <div id="kanban">
   <div id="queue">
-    <div class="card">queue test card {{title}}</div>
-    <div ng-repeat="card in cards" class="card">
-      <p>{{cards.title}}</p>
-    </div>
+    <!-- <div class="card">queue test card {{title}}</div> -->
+    <div ng-repeat="card in cards" class="card" value="{{card.title}}">{{card.title}}</div>
   </div>
   <div id="inProgress">
     <div class="card">inProgress test card</div>
