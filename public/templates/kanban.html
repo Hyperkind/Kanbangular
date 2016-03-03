@@ -1,12 +1,17 @@
 <div id="kanban">
   <div id="queue">
-    <!-- <div class="card">queue test card {{title}}</div> -->
-    <div ng-repeat="card in cards" class="card" value="{{card.title}}">{{card.title}}</div>
+    <div class="cardColumn"  ng-repeat="card in cards | filter:{status: 'queue'}">
+      <div ng-include src="'./templates/card.html'"></div>
+    </div>
   </div>
   <div id="inProgress">
-    <div class="card">inProgress test card</div>
+    <div class="cardColumn"  ng-repeat="card in cards | filter:{status: 'In Progress'}">
+      <div ng-include src="'./templates/card.html'"></div>
+    </div>
   </div>
   <div id="done">
-    <div class="card">done test card</div>
+    <div class="cardColumn"  ng-repeat="card in cards | filter:{status: 'done'}">
+      <div ng-include src="'./templates/card.html'"></div>
+    </div>
   </div>
 </div>
