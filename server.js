@@ -15,6 +15,7 @@ var app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 
 // links loin page to users database and checks for correct login
@@ -46,15 +47,25 @@ passport.use(new localStrategy (
 );
 
 passport.serializeUser(function (user, done) {
-  return done(null, {});
+  console.log('serializeUser', user);
+  return done(null, user.id);
 });
 
-passport.deserializeUser(function (user, done) {
-  return done(null, user);
+passport.deserializeUser(function (userId, done) {
+  console.log('deserializeUser');
+  user.findOne(userId)
+    .then(function(user) {
+      if (!user) {
+        return done(null, false);
+      }
+      return done(null, user);
+    });
+
 });
 
 // API to get all cards in database
 app.get('/api/cards', function(req, res) {
+  console.log(req.user);
   cards.findAll({})
     .then(function(cards) {
       res.json(cards);
@@ -67,6 +78,19 @@ app.get('/api/users', function(req, res) {
     .then(function(users) {
       res.json(users);
     });
+});
+
+app.delete('/api/cards/delete/:cards_id', function(req, res) {
+  console.log(req.params.cards_id);
+  cards.destroy({
+    where: {
+      id: parseInt(req.params.cards_id)
+    }
+  })
+  .then(function() {
+    console.log('passed destroy');
+    res.redirect('/');
+  });
 });
 
 app.post('/', function(req, res) {

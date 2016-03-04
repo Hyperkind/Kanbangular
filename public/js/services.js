@@ -20,4 +20,8 @@ function Kanban() {
     card.push(newCard);
     console.log(newCard);
   };
+
+  this.delCard = function() {
+    // card.findOne
+  };
 }

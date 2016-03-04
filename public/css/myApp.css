@@ -1,6 +1,6 @@
 html, body {
   height: 100%;
-  background-color: #6495ed
+  background-color: #6495ed;
 }
 
 #indexTitleText {
@@ -30,6 +30,10 @@ html, body {
   border-radius: 5px;
 }
 
+#editCard {
+
+}
+
 .cardColumn {
   padding-bottom: 10px;
 }
@@ -38,16 +42,19 @@ html, body {
   background-color: #ccc;
   width: 33%;
   padding: 10px;
+  overflow: scroll;
 }
 
 #inProgress {
   background-color: #ddd;
   width: 33%;
   padding: 10px;
+  overflow: scroll
 }
 
 #done {
   background-color: #eee;
   width: 33%;
   padding: 10px;
+  overflow: scroll
 }
