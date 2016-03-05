@@ -17,6 +17,10 @@ myApp
         templateUrl: '/templates/kanban.html',
         controller: 'MyController'
       })
+      .when('/viewCard/:id', {
+        templateUrl: '/templates/viewCard.html',
+        controller: 'ViewController'
+      })
       .when('/404', {
         templateUrl: '/templates/404.html'
       })

@@ -1,10 +1,13 @@
 <div class="cards">
+  <div>ID: {{card.id}}</div>
   <div>Title: {{card.title}}</div>
   <div>priority: {{card.priority}}</div>
   <div>Status: {{card.status}}</div>
   <div>Created By: {{card.createdBy}}</div>
   <div>Assigned To: {{card.assignedTo}}</div>
-  <button id="editCard">Edit card</button>
-  <button id="deleteCard">Delete card</button>
+  <button class="viewTest" onclick="location.href='/#/'"></button>
+  <a href="/#/viewCard/{{card.id}}">testing</a>
+<!--   <button class="viewCard" data="{{card.id}}" onclick="location.href='/#/viewCard'">View card</button> -->
+  <button class="editCard">Edit card</button>
 </div>
 

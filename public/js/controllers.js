@@ -16,3 +16,18 @@ myApp.controller('MyController', [
     });
   }
 ]);
+
+myApp.controller('ViewController', [
+  '$scope',
+  'Cards',
+  '$routeParams',
+  function($scope, Cards, $routeParams) {
+    $scope.cardId = $routeParams.id;
+    console.log($routeParams.id);
+
+    $scope.cards = [];
+    Cards.getCards().then(function(response) {
+      $scope.cards = response.data;
+    });
+  }
+]);

@@ -80,15 +80,25 @@ app.get('/api/users', function(req, res) {
     });
 });
 
-app.delete('/api/cards/delete/:cards_id', function(req, res) {
-  console.log(req.params.cards_id);
+app.get('/api/cards/edit/:cardId', function(req, res) {
+  console.log(req.body);
+  cards.findOne({
+    where: {
+      id: parseInt(req.params.cardId)
+    }
+  })
+  .then(function(card) {
+    res.json(card);
+  });
+});
+
+app.delete('/api/cards/delete/:cardId', function(req, res) {
   cards.destroy({
     where: {
-      id: parseInt(req.params.cards_id)
+      id: parseInt(req.params.cardId)
     }
   })
   .then(function() {
-    console.log('passed destroy');
     res.redirect('/');
   });
 });
