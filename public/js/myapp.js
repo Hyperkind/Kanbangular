@@ -21,11 +21,15 @@ myApp
         templateUrl: '/templates/viewCard.html',
         controller: 'ViewController'
       })
+      .when('/editCard/:id', {
+        templateUrl: '/templates/editCard.html',
+        controller: 'ViewController'
+      })
       .when('/404', {
         templateUrl: '/templates/404.html'
       })
       .otherwise('/404');
   })
   .run(function() {
-
+    console.log('Everything is running!');
   });

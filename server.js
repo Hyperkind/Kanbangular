@@ -31,13 +31,10 @@ passport.use(new localStrategy (
     })
     .then(function (user) {
       if (user.password !== password) {
-        console.log('password incorrect');
         return done(null, false);
       }
       else if (!user.username) {
-        console.log('user not found');
       }
-      console.log('logging in');
       return done(null, user);
     })
     .catch(function (err) {
@@ -47,12 +44,10 @@ passport.use(new localStrategy (
 );
 
 passport.serializeUser(function (user, done) {
-  console.log('serializeUser', user);
   return done(null, user.id);
 });
 
 passport.deserializeUser(function (userId, done) {
-  console.log('deserializeUser');
   user.findOne(userId)
     .then(function(user) {
       if (!user) {
@@ -65,7 +60,6 @@ passport.deserializeUser(function (userId, done) {
 
 // API to get all cards in database
 app.get('/api/cards', function(req, res) {
-  console.log(req.user);
   cards.findAll({})
     .then(function(cards) {
       res.json(cards);
@@ -80,8 +74,8 @@ app.get('/api/users', function(req, res) {
     });
 });
 
-app.get('/api/cards/edit/:cardId', function(req, res) {
-  console.log(req.body);
+app.get('/api/cards/:cardId', function(req, res) {
+  console.log(req.params.cardId);
   cards.findOne({
     where: {
       id: parseInt(req.params.cardId)
@@ -92,21 +86,32 @@ app.get('/api/cards/edit/:cardId', function(req, res) {
   });
 });
 
-app.delete('/api/cards/delete/:cardId', function(req, res) {
+app.put('/api/cards/:cardId', function(req, res) {
+  var cardUpdates = {
+    status: req.params.status,
+    assignedTo: req.body.assignedTo
+  };
+
+  console.log(cardUpdates);
+  cards.update(cardUpdates, {
+    where: {
+      id: parseInt(req.params.cardId)
+    }
+  });
+});
+
+app.delete('/api/cards/:cardId', function(req, res) {
   cards.destroy({
     where: {
       id: parseInt(req.params.cardId)
     }
-  })
-  .then(function() {
-    res.redirect('/');
   });
 });
 
 app.post('/', function(req, res) {
   cards.create(req.body)
     .then(function(card) {
-      res.redirect('/');
+      res.redirect('/#/kanban');
     });
 });
 

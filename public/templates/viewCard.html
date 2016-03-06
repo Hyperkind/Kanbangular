@@ -1,5 +1,5 @@
 {{cardId}}
-<div class="cardColumn"  ng-repeat="card in cards | filter:{id:cardId}">
+<div class="cardColumn"  ng-repeat="card in cards | filter:{id: cardId}">
   <div class="cards">
     <div>ID: {{card.id}}</div>
     <div>Title: {{card.title}}</div>
@@ -7,8 +7,7 @@
     <div>Status: {{card.status}}</div>
     <div>Created By: {{card.createdBy}}</div>
     <div>Assigned To: {{card.assignedTo}}</div>
-    <button class="viewTest" onclick="location.href='/#/'"></button>
     <a href="/#/kanban">Back</a>
-    <button class="editCard">Edit card</button>
+    <a href="/#/editCard/{{card.id}}">Edit Card</a>
   </div>
 </div>

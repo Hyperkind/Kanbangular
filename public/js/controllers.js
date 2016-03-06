@@ -6,14 +6,34 @@ myApp.controller('MyController', [
   'Cards',
   function($scope, Users, Cards) {
     $scope.users = [];
-    Users.getUsers().then(function(response) {
-      $scope.users = response.data;
+    $scope.cards = [];
+
+    Users.getUsers()
+    .then(function(res) {
+      $scope.users = res.data;
     });
 
-    $scope.cards = [];
-    Cards.getCards().then(function(response) {
-      $scope.cards = response.data;
+    Cards.getCards()
+    .then(function(res) {
+      $scope.cards = res.data;
     });
+
+    $scope.newCard = function(title, priority, createdBy, assignedTo) {
+      Cards.createCard({
+        title: title,
+        priority: priority,
+        createdBy: createdBy,
+        assignedTo: assignedTo
+      });
+    };
+
+    $scope.updateCard = function(card) {
+      Cards.updateCards(card);
+    };
+
+    $scope.delCard = function(card) {
+      Cards.delCards(card);
+    };
   }
 ]);
 
@@ -23,11 +43,15 @@ myApp.controller('ViewController', [
   '$routeParams',
   function($scope, Cards, $routeParams) {
     $scope.cardId = $routeParams.id;
-    console.log($routeParams.id);
+    // console.log($routeParams.id);
 
     $scope.cards = [];
+
     Cards.getCards().then(function(response) {
       $scope.cards = response.data;
     });
+    // $scope.delCard = function() {
+    //   console.log('del');
+    // };
   }
 ]);
