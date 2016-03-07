@@ -1,20 +1,26 @@
-{{cardId}}
-<div class="cardColumn"  ng-repeat="card in cards | filter:{id: cardId}">
-  <div class="cards">
-    <div>ID: {{card.id}}</div>
-    <div>Title: {{card.title}}</div>
-    <div>priority: {{card.priority}}</div>
-    <select name="status">
-      <option value="Queue">Queue</option>
-      <option value="In Progress">In Progress</option>
-      <option value="Done">Done</option>
-    </select>
-    <div>Created By: {{card.createdBy}}</div>
-    <select name="assignedTo">
-      <option ng-repeat="user in users" value="{{user.username}}">{{user.username}}</option>
-    </select>
-    <br>
-    <button ng-click="updateCard(cardId)">Save Card</button>
-    <button ng-click="delCard(cardId)">Delete Card</button>
-  </div>
+{{card}}
+<div class="cardColumn">
+  <form id="addCard" action="/" method="PUT">
+    <div class="cards">
+      <div>ID: {{card.id}}</div>
+      <div>Title: {{card.title}}</div>
+      <div>Priority: {{card.priority}}</div>
+      <div>Status:
+        <select name="status">
+          <option value="Queue">Queue</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Done">Done</option>
+        </select>
+      </div>
+      <div>Created By: {{card.createdBy}}</div>
+      <div>Assigned To:
+        <select name="assignedTo">
+          <option ng-repeat="user in users" value="{{user.username}}">{{user.username}}</option>
+        </select>
+      </div>
+      <br>
+      <button ng-click="editCard(cardId)">Save Card</button>
+      <button ng-click="delCard(cardId)">Delete Card</button>
+    </div>
+  </form>
 </div>

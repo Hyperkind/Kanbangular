@@ -75,7 +75,6 @@ app.get('/api/users', function(req, res) {
 });
 
 app.get('/api/cards/:cardId', function(req, res) {
-  console.log(req.params.cardId);
   cards.findOne({
     where: {
       id: parseInt(req.params.cardId)
@@ -88,15 +87,19 @@ app.get('/api/cards/:cardId', function(req, res) {
 
 app.put('/api/cards/:cardId', function(req, res) {
   var cardUpdates = {
-    status: req.params.status,
+    status: req.body.status,
     assignedTo: req.body.assignedTo
   };
 
-  console.log(cardUpdates);
-  cards.update(cardUpdates, {
+  var query = {
     where: {
       id: parseInt(req.params.cardId)
     }
+  };
+
+  cards.update(cardUpdates, query)
+  .then(function() {
+    res.render('/');
   });
 });
 

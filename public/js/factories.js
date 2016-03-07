@@ -25,23 +25,35 @@ myApp.factory('Cards', [
         );
       },
 
-      delCards: function(cardId) {
-        return $http.delete(
+      getCardById: function(cardId) {
+        return $http.get(
           '/api/cards/' + cardId
         );
       },
 
-      updateCards: function(cardId) {
+      editCard: function(data, cardId) {
         return $http.put(
+          '/api/cards/' + cardId,
+          data
+        )
+        .then(function(res) {
+          return res.data;
+        });
+      },
+
+      delCards: function(cardId) {
+        console.log('delete card:', cardId);
+        return $http.delete(
           '/api/cards/' + cardId
         );
       },
 
       createCard: function() {
         return $http.post(
-          '/api/cards/:cardId'
+          '/'
         );
       }
+
 
     };
   }

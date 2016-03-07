@@ -18,22 +18,22 @@ myApp.controller('MyController', [
       $scope.cards = res.data;
     });
 
-    $scope.newCard = function(title, priority, createdBy, assignedTo) {
+    $scope.newCard = function(title, priority, status, createdBy, assignedTo) {
       Cards.createCard({
         title: title,
         priority: priority,
+        status: status,
         createdBy: createdBy,
         assignedTo: assignedTo
       });
     };
 
-    $scope.updateCard = function(card) {
-      Cards.updateCards(card);
-    };
-
-    $scope.delCard = function(card) {
-      Cards.delCards(card);
-    };
+    // $scope.updateCard = function(priority, status) {
+    //   Cards.updateCards({
+    //     status: status,
+    //     priority: priority
+    //   });
+    // };
   }
 ]);
 
@@ -42,16 +42,52 @@ myApp.controller('ViewController', [
   'Cards',
   '$routeParams',
   function($scope, Cards, $routeParams) {
-    $scope.cardId = $routeParams.id;
-    // console.log($routeParams.id);
+    $scope.cardId = $routeParams.cardId;
 
-    $scope.cards = [];
-
-    Cards.getCards().then(function(response) {
-      $scope.cards = response.data;
+    Cards.getCardById($routeParams.cardId)
+    .then(function(res) {
+      $scope.card = res.data;
     });
-    // $scope.delCard = function() {
-    //   console.log('del');
-    // };
+  }
+]);
+
+myApp.controller('EditController', [
+  '$scope',
+  '$routeParams',
+  'Cards',
+  '$location',
+  function($scope, $routeParams, Cards, $location) {
+    $scope.cardId = $routeParams.cardId;
+    console.log($routeParams.cardId);
+
+    Cards.getCardById($routeParams.cardId)
+    .then(function(res) {
+      $scope.card = res.data;
+    });
+
+    console.log('$routeParams', $routeParams);
+    $scope.editCard = function(event) {
+      var data = {
+        title: $scope.title,
+        priority: $scope.priority,
+        status: $scope.status,
+        createdBy: $scope.createdBy,
+        assignedTo: $scope.assignedTo
+      };
+      console.log('event', event);
+      event.preventDefault();
+      Cards.updateCard(data, $routeParams.cardId)
+      .then(function(editCard) {
+        $location.path('/#/kanban');
+      });
+    };
+
+    $scope.delCard = function(cardId) {
+      Cards.delCards(cardId)
+      .then(function(delCard) {
+        $location.path('/#/kanban');
+      });
+    };
+
   }
 ]);
