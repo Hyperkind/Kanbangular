@@ -1,6 +1,6 @@
 {{card}}
 <div class="cardColumn">
-  <form id="addCard" action="/" method="PUT">
+  <form id="addCard">
     <div class="cards">
       <div>ID: {{card.id}}</div>
       <div>Title: {{card.title}}</div>
@@ -19,7 +19,7 @@
         </select>
       </div>
       <br>
-      <button ng-click="editCard(cardId)">Save Card</button>
+      <button ng-submit="editCard(cardId)">Save Card</button>
       <button ng-click="delCard(cardId)">Delete Card</button>
     </div>
   </form>
