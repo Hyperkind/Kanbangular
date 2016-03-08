@@ -9,14 +9,14 @@ myApp.controller('MyController', [
     $scope.cards = [];
 
     Users.getUsers()
-    .then(function(res) {
-      $scope.users = res.data;
-    });
+      .then(function(res) {
+        $scope.users = res.data;
+      });
 
     Cards.getCards()
-    .then(function(res) {
-      $scope.cards = res.data;
-    });
+      .then(function(res) {
+        $scope.cards = res.data;
+      });
 
     $scope.newCard = function(title, priority, status, createdBy, assignedTo) {
       Cards.createCard({
@@ -45,9 +45,9 @@ myApp.controller('ViewController', [
     $scope.cardId = $routeParams.cardId;
 
     Cards.getCardById($routeParams.cardId)
-    .then(function(res) {
-      $scope.card = res.data;
-    });
+      .then(function(res) {
+        $scope.card = res.data;
+      });
   }
 ]);
 
@@ -61,12 +61,13 @@ myApp.controller('EditController', [
     console.log($routeParams.cardId);
 
     Cards.getCardById($routeParams.cardId)
-    .then(function(res) {
-      $scope.card = res.data;
-    });
+      .then(function(res) {
+        $scope.card = res.data;
+      });
 
     console.log('$routeParams', $routeParams);
-    $scope.editCard = function(event) {
+    $scope.editCard = function(cardId) {
+      console.log(cardId);
       var data = {
         title: $scope.title,
         priority: $scope.priority,
@@ -74,19 +75,22 @@ myApp.controller('EditController', [
         createdBy: $scope.createdBy,
         assignedTo: $scope.assignedTo
       };
-      console.log('event', event);
+      console.log('event', cardId);
       event.preventDefault();
-      Cards.updateCard(data, $routeParams.cardId)
-      .then(function(editCard) {
-        $location.path('/#/kanban');
-      });
+      Cards.editCard(data, $routeParams.cardId)
+        .then(function(editCard) {
+          $location.path('/#/kanban');
+        });
     };
 
     $scope.delCard = function(cardId) {
       Cards.delCards(cardId)
-      .then(function(delCard) {
-        $location.path('/#/kanban');
-      });
+        .then(function() {
+          Cards.getCards()
+            .then(function(res) {
+              console.log('test stuff');
+            });
+        });
     };
 
   }

@@ -42,7 +42,6 @@ myApp.factory('Cards', [
       },
 
       delCards: function(cardId) {
-        console.log('delete card:', cardId);
         return $http.delete(
           '/api/cards/' + cardId
         );

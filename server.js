@@ -134,10 +134,10 @@ app.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-// app.put();
-
-// app.delete();
-
-var server = app.listen(3000, function() {
-  console.log('Server listening on port', server.address().port);
-});
+db.sequelize
+  .sync()
+  .then(function() {
+    app.listen(3000, function() {
+      console.log('Server listening');
+    });
+  });
