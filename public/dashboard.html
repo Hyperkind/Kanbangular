@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Kanbangular!</title>
+    <link rel="stylesheet" href="/css/myApp.css">
+  </head>
+  <body ng-app="myApp" ng-controller="MyController">
+    <a href="/#/">Welcome</a>
+    <a href="/#/dashboard">Dashboard</a>
+    <a href="/#/newCard">New Card</a>
+    <a href="/login">Login</a>
+
+    <h1 id="indexTitleText">Fun with Kanbans!</h1>
+
+    <div ng-view></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.js"></script>
+    <script type="text/javascript" src="/js/myapp.js"></script>
+    <script type="text/javascript" src="/js/controllers.js"></script>
+    <script type="text/javascript" src="/js/factories.js"></script>
+    <!-- <script type="text/javascript" src="/js/services.js"></script> -->
+  </body>
+</html>

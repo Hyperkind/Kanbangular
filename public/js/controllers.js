@@ -27,13 +27,6 @@ myApp.controller('MyController', [
         assignedTo: assignedTo
       });
     };
-
-    // $scope.updateCard = function(priority, status) {
-    //   Cards.updateCards({
-    //     status: status,
-    //     priority: priority
-    //   });
-    // };
   }
 ]);
 
@@ -61,14 +54,6 @@ myApp.controller('EditController', [
       .then(function(res) {
         $scope.card = res.data;
       });
-
-    // $scope.priorities = ["Low", "Medium", "High", "Blocker"];
-
-    // $scope.statuses = ["Queue", "In Progress", "Done"];
-
-    // $scope.selectedPriority = $scope.card.priority;
-
-    // $scope.selectedStatus = $scope.card.status;
 
     $scope.editCard = function(event) {
       event.preventDefault();
