@@ -18,12 +18,45 @@ myApp.factory('Cards', [
   '$http',
   function($http) {
     return {
+
       getCards: function() {
-        return $http({
-          method: 'GET',
-          url: '/api/cards'
+        return $http.get(
+          '/api/cards/'
+        );
+      },
+
+      getCardById: function(cardId) {
+        return $http.get(
+          '/api/cards/' + cardId
+        );
+      },
+
+      editCard: function(editData, cardId) {
+        return $http.put(
+          '/api/cards/' + cardId,
+          editData
+        )
+        .then(function(res) {
+          return res.data;
         });
+      },
+
+      delCards: function(cardId) {
+        return $http.delete(
+          '/api/cards/' + cardId
+        )
+        .then(function(res) {
+          $location.path('/');
+        });
+      },
+
+      createCard: function() {
+        return $http.post(
+          '/'
+        );
       }
+
+
     };
   }
 ]);

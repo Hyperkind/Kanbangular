@@ -17,9 +17,13 @@ myApp
         templateUrl: '/templates/kanban.html',
         controller: 'MyController'
       })
-      .when('/viewCard/:id', {
+      .when('/viewCard/:cardId', {
         templateUrl: '/templates/viewCard.html',
         controller: 'ViewController'
+      })
+      .when('/editCard/:cardId', {
+        templateUrl: '/templates/editCard.html',
+        controller: 'EditController'
       })
       .when('/404', {
         templateUrl: '/templates/404.html'
@@ -27,5 +31,5 @@ myApp
       .otherwise('/404');
   })
   .run(function() {
-
+    console.log('Everything is running!');
   });

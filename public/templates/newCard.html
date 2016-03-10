@@ -1,6 +1,6 @@
 <div id="addCard">
   <form id="addCard" action="/" method="POST">
-    <input type="text" name="title" placeholder="Title"/>
+    <input type="text" name="title" placeholder="Title">
     <select name="priority">
       <option value="Low">Low</option>
       <option value="Meduim">Meduim</option>
@@ -18,6 +18,6 @@
     <select name="assignedTo">
       <option ng-repeat="user in users" value="{{user.username}}">{{user.username}}</option>
     </select>
-    <button type="submit" ng-click="Kanban.addCard(title, priority, createdBy, assignedTo);title=''; priority=''; createdBy=''; assignedTo='';">Create Card</button>
+    <button ng-click="newCard">Add Card</button>
   </form>
 </div>
