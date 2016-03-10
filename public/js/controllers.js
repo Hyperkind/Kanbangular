@@ -57,27 +57,30 @@ myApp.controller('EditController', [
   'Cards',
   '$location',
   function($scope, $routeParams, Cards, $location, title, priority, status, createdBy, assignedTo) {
-    $scope.cardId = $routeParams.cardId;
-    $scope.title = $routeParams.title;
-    console.log($scope.title);
-
     Cards.getCardById($routeParams.cardId)
       .then(function(res) {
         $scope.card = res.data;
       });
 
-    // console.log('$routeParams', $routeParams);
-    $scope.editCard = function($event) {
+    // $scope.priorities = ["Low", "Medium", "High", "Blocker"];
+
+    // $scope.statuses = ["Queue", "In Progress", "Done"];
+
+    // $scope.selectedPriority = $scope.card.priority;
+
+    // $scope.selectedStatus = $scope.card.status;
+
+    $scope.editCard = function(event) {
       event.preventDefault();
       var editData = {
         id: $scope.card.id,
-        title: $event.target.title.value,
-        priority: $event.target.priority.value,
-        status: $event.target.status.value,
+        title: event.target.title.value,
+        priority:   event.target.priority.value,
+        status: event.target.status.value,
         createdBy: $scope.card.createdBy,
-        assignedTo: $event.target.assignedTo.value
+        assignedTo: event.target.assignedTo.value
       };
-      console.log('editstuff', editData);
+      console.log(editData);
       Cards.editCard(editData, $routeParams.cardId)
         .then(function(editCard) {
           $location.path('/');

@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(passport.session());
 
 // links loin page to users database and checks for correct login
 passport.use(new localStrategy (
@@ -87,16 +88,16 @@ app.get('/api/cards/:cardId', function(req, res) {
 
 app.put('/api/cards/:cardId', function(req, res) {
   var cardUpdates = {
+    title: req.body.title,
+    priority: req.body.priority,
     status: req.body.status,
     assignedTo: req.body.assignedTo
   };
-
   var query = {
     where: {
       id: parseInt(req.params.cardId)
     }
   };
-
   cards.update(cardUpdates, query)
   .then(function() {
     res.render('/');
@@ -123,10 +124,7 @@ app.route('/login')
     res.redirect('/login.html');
   })
   .post(
-    passport.authenticate('local', { failureRedirect: '/login'}),
-    function(req, res) {
-      res.redirect('/');
-    }
+    passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/'})
   );
 
 app.get('/logout', function(req, res) {
