@@ -17,12 +17,11 @@ var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(session({
   secret: CONFIG.session.secret
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // links loin page to users database and checks for correct login
 passport.use(new localStrategy (
@@ -30,7 +29,7 @@ passport.use(new localStrategy (
     passReqToCallback: true
   },
   function (req, username, password, done) {
-    users.findOne({
+    return users.find({
       where:{
         username: username
       }
@@ -38,8 +37,6 @@ passport.use(new localStrategy (
     .then(function (user) {
       if (user.password !== password) {
         return done(null, false);
-      }
-      else if (!user.username) {
       }
       return done(null, user);
     })
@@ -54,18 +51,17 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (userId, done) {
-  user.findOne(userId)
-    .then(function(user) {
-      if (!user) {
+  users.findById(userId)
+    .then(function(userId) {
+      if (!userId) {
         return done(null, false);
       }
-      return done(null, user);
+      return done(null, userId);
     });
-
 });
 
 // API to get all cards in database
-app.get('/api/cards', function(req, res) {
+app.get('/api/cards', isAuthenticated, function(req, res) {
   cards.findAll({})
     .then(function(cards) {
       res.json(cards);
@@ -122,6 +118,10 @@ app.post('/', function(req, res) {
     .then(function(card) {
       res.redirect('/#/kanban');
     });
+});
+
+app.get('/dashboard', function(req, res) {
+  res.sendFile('/dashboard.html');
 });
 
 app.route('/login')
