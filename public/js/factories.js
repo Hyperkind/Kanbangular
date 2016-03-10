@@ -31,10 +31,10 @@ myApp.factory('Cards', [
         );
       },
 
-      editCard: function(data, cardId) {
+      editCard: function(editData, cardId) {
         return $http.put(
           '/api/cards/' + cardId,
-          data
+          editData
         )
         .then(function(res) {
           return res.data;
@@ -44,7 +44,10 @@ myApp.factory('Cards', [
       delCards: function(cardId) {
         return $http.delete(
           '/api/cards/' + cardId
-        );
+        )
+        .then(function(res) {
+          $location.path('/');
+        });
       },
 
       createCard: function() {

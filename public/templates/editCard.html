@@ -1,10 +1,18 @@
-{{card}}
 <div class="cardColumn">
-  <form id="addCard">
-    <div class="cards">
+  <div class="cards">
+    <form id="addCard" ng-submit="editCard($event)">
       <div>ID: {{card.id}}</div>
-      <div>Title: {{card.title}}</div>
-      <div>Priority: {{card.priority}}</div>
+      <div>Title:
+        <input type="text" name="title" value="{{card.title}}">
+      </div>
+      <div>Priority:
+        <select name="priority" placeholder={{card.priority}}>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Blocker">Blocker</option>
+        </select>
+      </div>
       <div>Status:
         <select name="status">
           <option value="Queue">Queue</option>
@@ -19,8 +27,8 @@
         </select>
       </div>
       <br>
-      <button ng-click="editCard(cardId)">Save Card</button>
-      <button ng-click="delCard(cardId)">Delete Card</button>
-    </div>
-  </form>
+      <button type="submit" id="submit">Save Card</button>
+    </form>
+    <button ng-click="delCard(cardId)">Delete Card</button>
+  </div>
 </div>
