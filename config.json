@@ -1,3 +1,8 @@
 {
-  "PORT": 3000
+  "PORT": 3000,
+  "session": {
+    "secret": "NyanCat",
+    "RESAVE": true,
+    "SAVEUNINITIALIZED": true
+  }
 }

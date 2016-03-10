@@ -4,6 +4,7 @@ var Sequelize = require('sequelize');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
+var session = require('express-session');
 var router = express.Router();
 var isAuthenticated = require('./middleware/isAuthenticated');
 var CONFIG = require('./config');
@@ -18,6 +19,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(session({
+  secret: CONFIG.session.secret
+}));
 
 // links loin page to users database and checks for correct login
 passport.use(new localStrategy (
