@@ -2,20 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Kanbangular!</title>
+    <title>Kanbangular! - Dashboard</title>
     <link rel="stylesheet" href="/css/myApp.css">
   </head>
   <body ng-app="myApp" ng-controller="MyController">
-    <a href="/#/">Welcome</a>
-    <a href="/login">Login</a>
-    <a href="/newUser">New User</a>
+    <a href="/dashboard/#/kanban">Dashboard</a>
+    <a href="/dashboard/#/newCard">New Card</a>
+    <a href="/logout">Logout</a>
 
-    <h1 id="indexTitleText">Fun with Kanbans!</h1>
+    <h1 id="indexTitleText">Fun with Kanbans! test 3</h1>
 
-    <h3>Please Sign In!</h3>
-
-    <a href="/login">Existing Users</a>
-    <a href="/newUser">New User</a>
+    <div ng-view></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.js"></script>

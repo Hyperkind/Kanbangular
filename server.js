@@ -17,12 +17,11 @@ var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(session({
   secret: CONFIG.session.secret
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // links loin page to users database and checks for correct login
 passport.use(new localStrategy (
@@ -30,7 +29,7 @@ passport.use(new localStrategy (
     passReqToCallback: true
   },
   function (req, username, password, done) {
-    users.findOne({
+    return users.find({
       where:{
         username: username
       }
@@ -38,8 +37,6 @@ passport.use(new localStrategy (
     .then(function (user) {
       if (user.password !== password) {
         return done(null, false);
-      }
-      else if (!user.username) {
       }
       return done(null, user);
     })
@@ -54,18 +51,18 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (userId, done) {
-  user.findOne(userId)
-    .then(function(user) {
-      if (!user) {
+  users.findById(userId)
+    .then(function(userId) {
+      if (!userId) {
         return done(null, false);
       }
-      return done(null, user);
+      return done(null, userId);
     });
-
 });
 
 // API to get all cards in database
-app.get('/api/cards', function(req, res) {
+// cards only show when logged in
+app.get('/api/cards', isAuthenticated, function(req, res) {
   cards.findAll({})
     .then(function(cards) {
       res.json(cards);
@@ -73,63 +70,115 @@ app.get('/api/cards', function(req, res) {
 });
 
 // API to get all users in database
-app.get('/api/users', function(req, res) {
+app.get('/api/users', isAuthenticated, function(req, res) {
   users.findAll({})
     .then(function(users) {
       res.json(users);
     });
 });
 
-app.get('/api/cards/:cardId', function(req, res) {
-  cards.findOne({
-    where: {
-      id: parseInt(req.params.cardId)
-    }
+app.route('/api/cards/:cardId')
+  .get(function(req, res) {
+    console.log(req.params.cardId);
+    cards.findOne({
+      where: {
+        id: parseInt(req.params.cardId)
+      }
+    })
+    .then(function(card) {
+      res.json(card);
+    });
   })
-  .then(function(card) {
-    res.json(card);
+  .put(function(req, res) {
+      var cardUpdates = {
+        title: req.body.title,
+        priority: req.body.priority,
+        status: req.body.status,
+        assignedTo: req.body.assignedTo
+      };
+    var query = {
+      where: {
+        id: parseInt(req.params.cardId)
+      }
+    };
+    cards.update(cardUpdates, query);
+      // .then(function() {
+      //   res.render('/');
+      // });
+  })
+  .delete(function(req, res) {
+    cards.destroy({
+      where: {
+        id: parseInt(req.params.cardId)
+      }
+    });
   });
-});
 
-app.put('/api/cards/:cardId', function(req, res) {
-  var cardUpdates = {
-    title: req.body.title,
-    priority: req.body.priority,
-    status: req.body.status,
-    assignedTo: req.body.assignedTo
-  };
-  var query = {
-    where: {
-      id: parseInt(req.params.cardId)
-    }
-  };
-  cards.update(cardUpdates, query)
-  .then(function() {
-    res.render('/');
-  });
-});
+// app.get('/api/cards/:cardId', isAuthenticated, function(req, res) {
+//   cards.findOne({
+//     where: {
+//       id: parseInt(req.params.cardId)
+//     }
+//   })
+//   .then(function(card) {
+//     res.json(card);
+//   });
+// });
 
-app.delete('/api/cards/:cardId', function(req, res) {
-  cards.destroy({
-    where: {
-      id: parseInt(req.params.cardId)
-    }
-  });
-});
+// app.put('/api/cards/:cardId', isAuthenticated, function(req, res) {
+//   var cardUpdates = {
+//     title: req.body.title,
+//     priority: req.body.priority,
+//     status: req.body.status,
+//     assignedTo: req.body.assignedTo
+//   };
+//   var query = {
+//     where: {
+//       id: parseInt(req.params.cardId)
+//     }
+//   };
+//   cards.update(cardUpdates, query)
+//   .then(function() {
+//     res.sendFile('/dashboard/index.html');
+//   });
+// });
 
-app.post('/', function(req, res) {
+// app.delete('/api/cards/:cardId', isAuthenticated, function(req, res) {
+//   cards.destroy({
+//     where: {
+//       id: parseInt(req.params.cardId)
+//     }
+//   });
+// });
+
+app.post('/', isAuthenticated, function(req, res) {
   cards.create(req.body)
     .then(function(card) {
-      res.redirect('/#/kanban');
+      res.sendFile('/dashboard');
     });
 });
+
+app.get('/dashboard', isAuthenticated, function(req, res) {
+  res.sendFile('/dashboard');
+});
+
+app.route('/newUser')
+  .get(function(req, res) {
+    res.redirect('/newUser.html');
+  })
+  .post(function(req, res) {
+    users.create(req.body)
+      .then(function() {
+        res.redirect('/');
+      });
+  });
 
 app.route('/login')
   .get(function(req, res) {
     res.redirect('/login.html');
   })
   .post(
-    passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/'})
+    passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/dashboard/#/kanban'})
   );
 
 app.get('/logout', function(req, res) {

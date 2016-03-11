@@ -27,13 +27,6 @@ myApp.controller('MyController', [
         assignedTo: assignedTo
       });
     };
-
-    // $scope.updateCard = function(priority, status) {
-    //   Cards.updateCards({
-    //     status: status,
-    //     priority: priority
-    //   });
-    // };
   }
 ]);
 
@@ -62,14 +55,6 @@ myApp.controller('EditController', [
         $scope.card = res.data;
       });
 
-    // $scope.priorities = ["Low", "Medium", "High", "Blocker"];
-
-    // $scope.statuses = ["Queue", "In Progress", "Done"];
-
-    // $scope.selectedPriority = $scope.card.priority;
-
-    // $scope.selectedStatus = $scope.card.status;
-
     $scope.editCard = function(event) {
       event.preventDefault();
       var editData = {
@@ -82,12 +67,13 @@ myApp.controller('EditController', [
       };
       console.log(editData);
       Cards.editCard(editData, $routeParams.cardId)
-        .then(function(editCard) {
-          $location.path('/');
+        .then(function() {
+          $location.path('/dashboard');
         });
     };
 
     $scope.delCard = function(cardId) {
+      console.log(cardId);
       Cards.delCards(cardId);
     };
 
