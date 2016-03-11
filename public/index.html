@@ -7,13 +7,15 @@
   </head>
   <body ng-app="myApp" ng-controller="MyController">
     <a href="/#/">Welcome</a>
-    <a href="/#/kanban">View Board</a>
-    <a href="/#/newCard">New Card</a>
     <a href="/login">Login</a>
+    <a href="/newUser">New User</a>
 
     <h1 id="indexTitleText">Fun with Kanbans!</h1>
 
-    <div ng-view></div>
+    <h3>Please Sign In!</h3>
+
+    <a href="/login">Existing Users</a>
+    <a href="/newUser">New User</a>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.js"></script>

@@ -61,6 +61,7 @@ passport.deserializeUser(function (userId, done) {
 });
 
 // API to get all cards in database
+// cards only show when logged in
 app.get('/api/cards', isAuthenticated, function(req, res) {
   cards.findAll({})
     .then(function(cards) {
@@ -69,14 +70,14 @@ app.get('/api/cards', isAuthenticated, function(req, res) {
 });
 
 // API to get all users in database
-app.get('/api/users', function(req, res) {
+app.get('/api/users', isAuthenticated, function(req, res) {
   users.findAll({})
     .then(function(users) {
       res.json(users);
     });
 });
 
-app.get('/api/cards/:cardId', function(req, res) {
+app.get('/api/cards/:cardId', isAuthenticated, function(req, res) {
   cards.findOne({
     where: {
       id: parseInt(req.params.cardId)
@@ -87,7 +88,7 @@ app.get('/api/cards/:cardId', function(req, res) {
   });
 });
 
-app.put('/api/cards/:cardId', function(req, res) {
+app.put('/api/cards/:cardId', isAuthenticated, function(req, res) {
   var cardUpdates = {
     title: req.body.title,
     priority: req.body.priority,
@@ -105,7 +106,7 @@ app.put('/api/cards/:cardId', function(req, res) {
   });
 });
 
-app.delete('/api/cards/:cardId', function(req, res) {
+app.delete('/api/cards/:cardId', isAuthenticated, function(req, res) {
   cards.destroy({
     where: {
       id: parseInt(req.params.cardId)
@@ -113,23 +114,34 @@ app.delete('/api/cards/:cardId', function(req, res) {
   });
 });
 
-app.post('/', function(req, res) {
+app.post('/', isAuthenticated, function(req, res) {
   cards.create(req.body)
     .then(function(card) {
-      res.redirect('/#/kanban');
+      res.redirect('/dashboard/#/kanban');
     });
 });
 
-app.get('/dashboard', function(req, res) {
-  res.sendFile('/dashboard.html');
+app.get('/dashboard', isAuthenticated, function(req, res) {
+  res.sendFile('/dashboard');
 });
+
+app.route('/newUser')
+  .get(function(req, res) {
+    res.redirect('/newUser.html');
+  })
+  .post(function(req, res) {
+    users.create(req.body)
+      .then(function() {
+        res.redirect('/');
+      });
+  });
 
 app.route('/login')
   .get(function(req, res) {
     res.redirect('/login.html');
   })
   .post(
-    passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/'})
+    passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/dashboard/#/kanban'})
   );
 
 app.get('/logout', function(req, res) {
