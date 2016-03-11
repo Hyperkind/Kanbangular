@@ -67,12 +67,13 @@ myApp.controller('EditController', [
       };
       console.log(editData);
       Cards.editCard(editData, $routeParams.cardId)
-        .then(function(editCard) {
-          $location.path('/');
+        .then(function() {
+          $location.path('/dashboard');
         });
     };
 
     $scope.delCard = function(cardId) {
+      console.log(cardId);
       Cards.delCards(cardId);
     };
 

@@ -44,10 +44,7 @@ myApp.factory('Cards', [
       delCards: function(cardId) {
         return $http.delete(
           '/api/cards/' + cardId
-        )
-        .then(function(res) {
-          $location.path('/');
-        });
+        );
       },
 
       createCard: function() {

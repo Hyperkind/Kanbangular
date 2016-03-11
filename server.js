@@ -77,47 +77,84 @@ app.get('/api/users', isAuthenticated, function(req, res) {
     });
 });
 
-app.get('/api/cards/:cardId', isAuthenticated, function(req, res) {
-  cards.findOne({
-    where: {
-      id: parseInt(req.params.cardId)
-    }
+app.route('/api/cards/:cardId')
+  .get(function(req, res) {
+    console.log(req.params.cardId);
+    cards.findOne({
+      where: {
+        id: parseInt(req.params.cardId)
+      }
+    })
+    .then(function(card) {
+      res.json(card);
+    });
   })
-  .then(function(card) {
-    res.json(card);
+  .put(function(req, res) {
+      var cardUpdates = {
+        title: req.body.title,
+        priority: req.body.priority,
+        status: req.body.status,
+        assignedTo: req.body.assignedTo
+      };
+    var query = {
+      where: {
+        id: parseInt(req.params.cardId)
+      }
+    };
+    cards.update(cardUpdates, query);
+      // .then(function() {
+      //   res.render('/');
+      // });
+  })
+  .delete(function(req, res) {
+    cards.destroy({
+      where: {
+        id: parseInt(req.params.cardId)
+      }
+    });
   });
-});
 
-app.put('/api/cards/:cardId', isAuthenticated, function(req, res) {
-  var cardUpdates = {
-    title: req.body.title,
-    priority: req.body.priority,
-    status: req.body.status,
-    assignedTo: req.body.assignedTo
-  };
-  var query = {
-    where: {
-      id: parseInt(req.params.cardId)
-    }
-  };
-  cards.update(cardUpdates, query)
-  .then(function() {
-    res.render('/');
-  });
-});
+// app.get('/api/cards/:cardId', isAuthenticated, function(req, res) {
+//   cards.findOne({
+//     where: {
+//       id: parseInt(req.params.cardId)
+//     }
+//   })
+//   .then(function(card) {
+//     res.json(card);
+//   });
+// });
 
-app.delete('/api/cards/:cardId', isAuthenticated, function(req, res) {
-  cards.destroy({
-    where: {
-      id: parseInt(req.params.cardId)
-    }
-  });
-});
+// app.put('/api/cards/:cardId', isAuthenticated, function(req, res) {
+//   var cardUpdates = {
+//     title: req.body.title,
+//     priority: req.body.priority,
+//     status: req.body.status,
+//     assignedTo: req.body.assignedTo
+//   };
+//   var query = {
+//     where: {
+//       id: parseInt(req.params.cardId)
+//     }
+//   };
+//   cards.update(cardUpdates, query)
+//   .then(function() {
+//     res.sendFile('/dashboard/index.html');
+//   });
+// });
+
+// app.delete('/api/cards/:cardId', isAuthenticated, function(req, res) {
+//   cards.destroy({
+//     where: {
+//       id: parseInt(req.params.cardId)
+//     }
+//   });
+// });
 
 app.post('/', isAuthenticated, function(req, res) {
   cards.create(req.body)
     .then(function(card) {
-      res.redirect('/dashboard/#/kanban');
+      res.sendFile('/dashboard');
     });
 });
 
