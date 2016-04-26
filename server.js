@@ -12,6 +12,16 @@ var db = require('./models');
 var cards = db.card;
 var users = db.user;
 
+var crypto = require('crypto');
+var bcrypt = require('bcrypt');
+
+var passSecret = 'abcdefg';  //CONFIG.crypto.secret;
+var hash = crypto.createHmac('sha256', passSecret)
+                 .update('I love cupcakes')
+                 .digest('hex');
+
+console.log(hash);
+
 var app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -101,6 +111,7 @@ app.route('/api/cards/:cardId')
         id: parseInt(req.params.cardId)
       }
     };
+
     cards.update(cardUpdates, query);
       // .then(function() {
       //   res.render('/');
